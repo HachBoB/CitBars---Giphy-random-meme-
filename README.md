@@ -8,4 +8,4 @@ cd CitBars---Giphy-random-meme-
 npm install
 
 # Запусти сервер
-npx serve dist
+npm run dev
