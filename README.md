@@ -1,5 +1,7 @@
 # Клонируй репозиторий
-git clone git@github.com:HachBoB/CitBars---Giphy-random-meme-.git
+git clone https://github.com/HachBoB/CitBars---Giphy-random-meme-
+
+# Перейди в репозиторий
 cd citbars
 
 # Установи зависимости
