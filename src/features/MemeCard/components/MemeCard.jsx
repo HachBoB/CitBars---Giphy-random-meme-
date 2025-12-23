@@ -23,9 +23,6 @@ export function MemeCard({ meme }) {
             >
                 Открыть на GIPHY
             </button>
-            <div className="text-xs text-white/60">
-                {meme.category} ({meme.tag})
-            </div>
         </article>
     );
 }

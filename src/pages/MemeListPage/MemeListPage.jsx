@@ -10,7 +10,7 @@ const CATEGORIES = [
     { value: 'cats',     label: 'Котики' },
     { value: 'dogs',     label: 'Собачки' },
     { value: 'anime',    label: 'Аниме', crossed: true },
-    { value: 'football', label: 'Football' }
+    { value: 'football', label: 'Футбольчик' }
 ];
 
 export function MemeListPage() {
