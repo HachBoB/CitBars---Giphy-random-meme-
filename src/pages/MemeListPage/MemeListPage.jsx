@@ -3,15 +3,15 @@ import { MemeCard } from '@/features/MemeCard/index.js';
 import { Button } from '@/shared/ui/Button.jsx';
 import { Loader } from '@/shared/ui/Loader.jsx';
 import { fetchRandomMemes } from '@/shared/api/memeApi.js';
+import { CATEGORIES_CONFIG } from '@/shared/constants/memeConfig.js';
 
-const CATEGORIES = [
-    { value: 'meme',     label: 'Рандом' },
-    { value: 'funny',    label: 'Смешнявки' },
-    { value: 'cats',     label: 'Котики' },
-    { value: 'dogs',     label: 'Собачки' },
-    { value: 'anime',    label: 'Аниме', crossed: true },
-    { value: 'football', label: 'Футбольчик' }
-];
+const CATEGORIES = Object.entries(CATEGORIES_CONFIG).map(
+    ([value, cfg]) => ({
+        value,
+        label: cfg.label,
+        crossed: cfg.crossed,
+    }),
+);
 
 export function MemeListPage() {
     const [memes, setMemes] = useState([]);
