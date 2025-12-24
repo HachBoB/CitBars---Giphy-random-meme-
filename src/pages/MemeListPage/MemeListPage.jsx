@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { MemeCard } from '@/features/MemeCard/index.js';
+import { MemeCard } from '@/features/MemeCard';
 import { Button } from '@/shared/ui/Button.jsx';
 import { Loader } from '@/shared/ui/Loader.jsx';
 import { fetchRandomMemes } from '@/shared/api/memeApi.js';
 import { CATEGORIES_CONFIG } from '@/shared/constants/memeConfig.js';
+import { RATINGS } from '@/shared/constants/config.js';
 
 const CATEGORIES = Object.entries(CATEGORIES_CONFIG).map(
     ([value, cfg]) => ({
@@ -18,12 +19,14 @@ export function MemeListPage() {
     const [category, setCategory] = useState('meme');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [mediaType, setMediaType] = useState('gifs');
+    const [rating, setRating] = useState('pg');
 
-    const loadMemes = async (cat = category) => {
+    const loadMemes = async (cat = category, type = mediaType, r = rating) => {
         try {
             setLoading(true);
             setError('');
-            const data = await fetchRandomMemes(cat);
+            const data = await fetchRandomMemes(cat, type, r);
             setMemes(data);
         } catch (e) {
             setError(e.message || 'Ошибка загрузки');
@@ -33,13 +36,16 @@ export function MemeListPage() {
     };
 
     useEffect(() => {
-        loadMemes('meme');
+        loadMemes('meme', mediaType, rating);
     }, []);
+
+    useEffect(() => {
+        loadMemes();
+    }, [category, mediaType, rating]);
 
     const handleCategoryChange = (e) => {
         const newCat = e.target.value;
         setCategory(newCat);
-        loadMemes(newCat);
     };
 
     return (
@@ -56,7 +62,6 @@ export function MemeListPage() {
             <div className="flex flex-wrap items-center gap-3">
                 <div className="flex items-center gap-2">
                     <span className="text-sm text-white/70">Категория:</span>
-
                     <div className="rounded-md border border-white/25 bg-black/40 backdrop-blur px-2 py-1">
                         <select
                             value={category}
@@ -68,11 +73,54 @@ export function MemeListPage() {
                                 <option
                                     key={c.value}
                                     value={c.value}
-                                    className={"bg-black text-white"+
-                                        (c.crossed ? 'line-through text-white/30' : '')
+                                    className={
+                                        'bg-black text-white' +
+                                        (c.crossed ? ' line-through text-white/30' : '')
                                     }
                                 >
                                     {c.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => setMediaType('gifs')}
+                        className={`px-3 py-1 rounded text-sm ${
+                            mediaType === 'gifs' ? 'bg-purple-600' : 'bg-zinc-800'
+                        }`}
+                    >
+                        GIF
+                    </button>
+
+                    <button
+                        onClick={() => setMediaType('stickers')}
+                        className={`px-3 py-1 rounded text-sm ${
+                            mediaType === 'stickers' ? 'bg-purple-600' : 'bg-zinc-800'
+                        }`}
+                    >
+                        Stickers
+                    </button>
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <span className="text-sm text-white/70">Рейтинг:</span>
+                    <div className="rounded-md border border-white/25 bg-black/40 backdrop-blur px-2 py-1">
+                        <select
+                            value={rating}
+                            onChange={(e) => setRating(e.target.value)}
+                            disabled={loading}
+                            className="outline-none border-none text-sm text-white pr-2"
+                        >
+                            {RATINGS.map((r) => (
+                                <option
+                                    key={r.value}
+                                    value={r.value}
+                                    className="bg-black text-white"
+                                >
+                                    {r.label}
                                 </option>
                             ))}
                         </select>

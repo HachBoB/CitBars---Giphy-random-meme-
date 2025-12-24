@@ -31,3 +31,12 @@ export const CATEGORIES_CONFIG = {
         query: 'football meme',
     },
 };
+
+export const STICKER_QUERIES = {
+    cats: 'cat',
+    dogs: 'dog',
+    funny: 'funny meme',
+    anime: 'anime meme',
+    football: 'football meme',
+    meme: 'funny',
+};
